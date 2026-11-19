@@ -1,17 +1,17 @@
 
-name: Build Smart Remote APK
+name: Build Smart Remote
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
-
-permissions:
-  contents: read
+  push:
+    paths:
+      - 'SmartRemote-GitHub.zip'
+      - '.github/workflows/build.yml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -26,10 +26,15 @@ jobs:
 
       - uses: android-actions/setup-android@v3
 
+      - name: Extract ZIP
+        run: unzip SmartRemote-GitHub.zip -d source
+
       - name: Build APK
-        run: gradle assembleDebug
+        run: |
+          cd source
+          gradle assembleDebug
 
       - uses: actions/upload-artifact@v4
         with:
-          name: SmartRemote-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: SmartRemote-APK
+          path: source/app/build/outputs/apk/debug/app-debug.apk
