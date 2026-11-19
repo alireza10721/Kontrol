@@ -6,8 +6,8 @@ on:
   push:
     paths:
       - 'SmartRemote-GitHub.zip'
-      - '.github/workflows/build.yml'
-
+      - '.github/workflows/android.yml'
+      
 permissions:
   contents: read
 
